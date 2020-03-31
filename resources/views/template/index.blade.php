@@ -16,8 +16,8 @@
 <body>
   <div id="app">
     <header-component></header-component>
-    <example-component></example-component>
-    
+    <ressources-component></ressources-component>
+
 
   </div>
 

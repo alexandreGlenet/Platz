@@ -20,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('ressources', 'RessourcesController', [
   'except' => ['show', 'create', 'edit']
 ]);
+
+Route::resource('categories', 'CategoriesController', [
+  'except' => ['show', 'create', 'edit']
+]);

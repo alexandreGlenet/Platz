@@ -17,5 +17,8 @@
      //   {
      //     return $this->belongsToMany('App\Http\Models\Tag');
      //   }
+     public function ressource(){
+       return $this->hasMany('App\Http\Models\Ressource');
+     }
 
    }

@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use App\Http\Models\Ressource;
+use App\Http\Models\Categorie;
 
 
 
-class RessourcesController extends Controller
+class CategoriesController extends Controller
 {
   /**
    * [show description]
@@ -19,8 +19,8 @@ class RessourcesController extends Controller
    */
 
    public function index(){
-     return response()->json(Ressource::with('categorie')->get()); // renvoie le résultat de la requete sous format Json.
-     // Faire le store etc...
+     return response()->json(Categorie::all());
+
    }
    //
    //  public function show(int $id = 1, string $slug = null)
