@@ -14,11 +14,10 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
 </head>
 <body>
+  {{-- @include('template.partials._headerTemplate') --}}
   <div id="app">
     <header-component></header-component>
-    <ressources-component></ressources-component>
-
-
+    <router-view></router-view>
   </div>
 
   <script src="{{ asset('js/app.js')}}"></script>

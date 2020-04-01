@@ -1,42 +1,7 @@
 <template>
-<div id="wrapper-container">
-
-    <div class="container object">
-
-        <div id="main-container-image">
-
-            <section class="work">
-
-                <figure v-for="ressource in ressources" :key="ressource.id" class="white">
-                    <a href="details.html">
-                        <img :src="'storage/'+ressource.photo" alt=""/>
-                        <dl>
-                            <dt>{{ ressource.nom }}</dt>
-                            <dd>{{ ressource.description }}</dd>
-                        </dl>
-                    </a>
-                    <div id="wrapper-part-info">
-                        <div class="part-info-image"><img :src="'storage/'+ressource.categorie.icone" alt="" width="28" height="28" /></div>
-                        <div id="part-info">{{ ressource.nom }}</div>
-                    </div>
-                </figure>
-
-            </section>
-
-        </div>
-
-    </div>
-
-    <div id="wrapper-oldnew">
-        <div class="oldnew">
-            <div class="wrapper-oldnew-prev">
-                <div id="oldnew-prev"></div>
-            </div>
-            <div class="wrapper-oldnew-next">
-                <div id="oldnew-next"></div>
-            </div>
-        </div>
-    </div>
+  <div class="">
+    <h2>ceci est le detail</h2>
+  </div>
 
     <!-- FOOTER -->
 
@@ -101,22 +66,8 @@
 export default {
     data () {
       return {
-        ressources: [],
-        categories: []
+
       }
-    },
-    created () {
-      axios.get('api/ressources') // Obtenue dans : php artisan route:list
-           .then(reponsePHP => (this.ressources = reponsePHP.data));
-      axios.get('api/categories') // Obtenue dans : php artisan route:list
-           .then(reponsePHP => (this.categories = reponsePHP.data));
-    },
-
-    methods:{
-      // getRessourcePhoto(){
-      //   return "/storage/ressources/" +this.photo;
-      // }
     }
-
 }
 </script>
