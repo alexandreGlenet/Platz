@@ -9,7 +9,7 @@
 
                 <figure v-for="ressource in ressources" :key="ressource.id" class="white">
                     <a href="details.html">
-                        <img :src="'storage/'+ressource.photo" alt="" width="440" height="330"/>
+                        <img :src="'storage/'+ressource.photo" alt=""/>
                         <dl>
                             <dt>{{ ressource.nom }}</dt>
                             <dd>{{ ressource.description }}</dd>

@@ -37780,12 +37780,7 @@ var render = function() {
             return _c("figure", { key: ressource.id, staticClass: "white" }, [
               _c("a", { attrs: { href: "details.html" } }, [
                 _c("img", {
-                  attrs: {
-                    src: "storage/" + ressource.photo,
-                    alt: "",
-                    width: "440",
-                    height: "330"
-                  }
+                  attrs: { src: "storage/" + ressource.photo, alt: "" }
                 }),
                 _vm._v(" "),
                 _c("dl", [
