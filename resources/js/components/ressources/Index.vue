@@ -101,15 +101,19 @@
 export default {
     data () {
       return {
-        ressources: [],
-        categories: []
+        //ressources: [],
+        //categories: []
+      }
+    },
+
+    computed: {
+      ressources () {
+        return this.$store.getters.getRessources;
       }
     },
     created () {
-      axios.get('api/ressources') // Obtenue dans : php artisan route:list
-           .then(reponsePHP => (this.ressources = reponsePHP.data));
-      axios.get('api/categories') // Obtenue dans : php artisan route:list
-           .then(reponsePHP => (this.categories = reponsePHP.data));
+      //this.$store.dispatch('setPrenom', "Pierre");
+
     },
 
     methods:{

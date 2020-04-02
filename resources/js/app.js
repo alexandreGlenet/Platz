@@ -30,10 +30,16 @@ Vue.component('header-component', require('./components/HeaderComponent.vue').de
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import store  from './store/index.js';
 import router from './router.js';
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store,
+
+    created () {
+      this.$store.dispatch('setRessources');
+    }
 
 });
