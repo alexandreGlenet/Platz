@@ -11,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'ressource.index',
+      name: 'ressources.index',
       component: RessourcesIndex
     },
     {
