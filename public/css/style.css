@@ -159,9 +159,10 @@ body,html{
 	position:relative;
 	width:1200px;
 	left:50%;
-	margin-left:-600px;
+	margin-left:-580px;
 	height:100%;
 	top:0;
+  justify-content: flex-start;
 }
 
 .top-rated,.recent,.oldies{

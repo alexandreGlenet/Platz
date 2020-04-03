@@ -6,7 +6,7 @@
             <router-link :to="{name: 'ressources.show', params: { id: ressource.id }}">
                 <img :src="'storage/'+ressource.photo" alt="" />
                 <dl>
-                    <dt>{{ ressource.nom }}</dt>
+                    <dt>{{ ressource.categorie.nom }}</dt>
                     <dd>{{ ressource.description }}</dd>
                 </dl>
             </router-link>
@@ -35,15 +35,19 @@
 export default {
     data() {
         return {
-            //ressources: [],
-            //categories: []
+             // ressources: [],
+             // categories: []
         }
     },
 
     computed: {
-        ressources() {
-            return this.$store.getters.getRessources;
-        }
+
+      ressources() {
+          let id = this.$route.params.id;
+          return this.$store.getters.getRessourcesByCategorieId(id);
+      }
+
+
     },
     created() {
         //this.$store.dispatch('setPrenom', "Pierre");
@@ -51,7 +55,9 @@ export default {
     },
 
     methods: {
-        
+        // getRessourcePhoto(){
+        //   return "/storage/ressources/" +this.photo;
+        // }
     }
 
 }
