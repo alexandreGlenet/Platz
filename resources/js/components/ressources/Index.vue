@@ -19,7 +19,7 @@
     </section>
 
     <div id="wrapper-oldnew">
-        <button  @click="limitRessources += '20'" class="btn btn-outline-dark btn-lg boutonCenter"type="button" name="button">More Ressources</button>
+        <button  @click="limitRessources += 4" class="btn btn-outline-dark btn-lg boutonCenter"type="button" name="button">More Ressources</button>
     </div>
 </div>
 </template>

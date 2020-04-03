@@ -39051,7 +39051,7 @@ var render = function() {
           attrs: { type: "button", name: "button" },
           on: {
             click: function($event) {
-              _vm.limitRessources += "20"
+              _vm.limitRessources += 4
             }
           }
         },
