@@ -2325,12 +2325,15 @@ __webpack_require__.r(__webpack_exports__);
     return {
       //ressources: [],
       //categories: []
-      itemsPerPage: 20
+      limitRessources: 20
     };
   },
   computed: {
     ressources: function ressources() {
       return this.$store.getters.getRessources;
+    },
+    moreRessource: function moreRessource() {
+      return this.limitRessources ? this.ressources.slice(0, this.limitRessources) : this.ressources;
     }
   },
   created: function created() {//this.$store.dispatch('setPrenom', "Pierre");
@@ -38992,7 +38995,7 @@ var render = function() {
     _c(
       "section",
       { staticClass: "work" },
-      _vm._l(_vm.ressources.slice(0, 20), function(ressource) {
+      _vm._l(_vm.moreRessource, function(ressource) {
         return _c(
           "figure",
           { key: ressource.id, staticClass: "white" },
@@ -39040,26 +39043,24 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "wrapper-oldnew" } }, [
+    _c("div", { attrs: { id: "wrapper-oldnew" } }, [
       _c(
         "button",
         {
           staticClass: "btn btn-outline-dark btn-lg boutonCenter",
-          attrs: { type: "button", name: "button" }
+          attrs: { type: "button", name: "button" },
+          on: {
+            click: function($event) {
+              _vm.limitRessources += "20"
+            }
+          }
         },
         [_vm._v("More Ressources")]
       )
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

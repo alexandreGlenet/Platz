@@ -2,7 +2,7 @@
 <div class="">
     <section class="work">
 
-        <figure v-for="ressource in ressources.slice(0,20)" :key="ressource.id" class="white">
+        <figure v-for="ressource in moreRessource" :key="ressource.id" class="white">
             <router-link :to="{name: 'ressources.show', params: { id: ressource.id }}">
                 <img :src="'storage/'+ressource.photo" alt="" />
                 <dl>
@@ -19,7 +19,7 @@
     </section>
 
     <div id="wrapper-oldnew">
-        <button  class="btn btn-outline-dark btn-lg boutonCenter"type="button" name="button">More Ressources</button>
+        <button  @click="limitRessources += '20'" class="btn btn-outline-dark btn-lg boutonCenter"type="button" name="button">More Ressources</button>
     </div>
 </div>
 </template>
@@ -31,7 +31,7 @@ export default {
             //ressources: [],
             //categories: []
 
-            itemsPerPage: 20
+            limitRessources: 20
 
         }
     },
@@ -40,6 +40,9 @@ export default {
         ressources() {
             return this.$store.getters.getRessources;
         },
+        moreRessource(){
+          return this.limitRessources ? this.ressources.slice(0,this.limitRessources) : this.ressources
+  }
 
     },
     created() {
