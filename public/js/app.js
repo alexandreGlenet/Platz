@@ -2320,17 +2320,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {//ressources: [],
+    return {
+      //ressources: [],
       //categories: []
+      itemsPerPage: 20
     };
   },
   computed: {
@@ -38517,7 +38512,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", {}, [
       _c("div", { attrs: { id: "wrapper-thank" } }, [
-        _c("div", { staticClass: "thank" }, [
+        _c("div", { staticClass: "thank container" }, [
           _c("div", { staticClass: "thank-text" }, [
             _vm._v("pl"),
             _c("span", { staticStyle: { "letter-spacing": "-5px" } }, [
@@ -38997,7 +38992,7 @@ var render = function() {
     _c(
       "section",
       { staticClass: "work" },
-      _vm._l(_vm.ressources, function(ressource) {
+      _vm._l(_vm.ressources.slice(0, 20), function(ressource) {
         return _c(
           "figure",
           { key: ressource.id, staticClass: "white" },
@@ -39054,15 +39049,14 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { attrs: { id: "wrapper-oldnew" } }, [
-      _c("div", { staticClass: "oldnew" }, [
-        _c("div", { staticClass: "wrapper-oldnew-prev" }, [
-          _c("div", { attrs: { id: "oldnew-prev" } })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "wrapper-oldnew-next" }, [
-          _c("div", { attrs: { id: "oldnew-next" } })
-        ])
-      ])
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-dark btn-lg boutonCenter",
+          attrs: { type: "button", name: "button" }
+        },
+        [_vm._v("More Ressources")]
+      )
     ])
   }
 ]
@@ -56327,7 +56321,11 @@ var getters = {
       return state.ressources.filter(function (ressources) {
         return ressources.categorie.id == id;
       });
-    };
+    }; // getRessourcesPerPage(state) {
+    //   return function (array, pageSize) {
+    //     return state.ressources.filter(ressources => ressources.categorie.id == id);
+    //   }
+    // }
   },
   //   function getByCategory(list, category) {
   //   if (!category) return list

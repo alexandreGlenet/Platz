@@ -2,7 +2,7 @@
 <div class="">
     <section class="work">
 
-        <figure v-for="ressource in ressources" :key="ressource.id" class="white">
+        <figure v-for="ressource in ressources.slice(0,20)" :key="ressource.id" class="white">
             <router-link :to="{name: 'ressources.show', params: { id: ressource.id }}">
                 <img :src="'storage/'+ressource.photo" alt="" />
                 <dl>
@@ -19,14 +19,7 @@
     </section>
 
     <div id="wrapper-oldnew">
-        <div class="oldnew">
-            <div class="wrapper-oldnew-prev">
-                <div id="oldnew-prev"></div>
-            </div>
-            <div class="wrapper-oldnew-next">
-                <div id="oldnew-next"></div>
-            </div>
-        </div>
+        <button  class="btn btn-outline-dark btn-lg boutonCenter"type="button" name="button">More Ressources</button>
     </div>
 </div>
 </template>
@@ -37,13 +30,17 @@ export default {
         return {
             //ressources: [],
             //categories: []
+
+            itemsPerPage: 20
+
         }
     },
 
     computed: {
         ressources() {
             return this.$store.getters.getRessources;
-        }
+        },
+
     },
     created() {
         //this.$store.dispatch('setPrenom', "Pierre");
@@ -51,7 +48,7 @@ export default {
     },
 
     methods: {
-        
+
     }
 
 }

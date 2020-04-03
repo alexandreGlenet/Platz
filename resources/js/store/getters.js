@@ -14,7 +14,13 @@ let getters = {
   getRessourcesByCategorieId(state) {
     return function (id){
       return state.ressources.filter(ressources => ressources.categorie.id == id);
-    }
+  }
+
+  // getRessourcesPerPage(state) {
+  //   return function (array, pageSize) {
+  //     return state.ressources.filter(ressources => ressources.categorie.id == id);
+  //   }
+  // }
 
   },
 
