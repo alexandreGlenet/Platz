@@ -6,7 +6,7 @@
     <!-- HEADER -->
     <div id="wrapper-header">
         <div id="main-header" class="object">
-            <router-link :to="{name: 'ressources.index'}">
+            <router-link @click="limitRessourcesByCat -= '4'" :to="{name: 'ressources.index'}">
                 <div class="logo"><img src="img/logo-burst.png" alt="logo platz" height="38" width="90"></div>
             </router-link>
             <div id="main_tip_search">
@@ -22,11 +22,11 @@
         <div class="navbar object">
 
             <div id="wrapper-bouton-icon" v-for="categorie in categories" :key="categorie.id">
-              <router-link :to="{name: 'categories.show', params: { id: categorie.id }}">
-                <div id="bouton-ai">
-                  <img :src="'storage/'+categorie.icone" :title="categorie.nom" :alt="categorie.nom" height="28" width="28">
-                </div>
-              </router-link>
+                <router-link :to="{name: 'categories.show', params: { id: categorie.id }}">
+                    <div id="bouton-ai">
+                        <img :src="'storage/'+categorie.icone" :title="categorie.nom" :alt="categorie.nom" height="28" width="28">
+                    </div>
+                </router-link>
             </div>
             <!-- <ul v-for="categorie in categories" :key="categorie.id">
               <li><img :src="'storage/'+categorie.icone"  height="28" width="28"></li>
@@ -77,16 +77,25 @@
 
 <script>
 export default {
-    mounted() {
-        console.log('Component mounted.')
+    data() {
+        return {
+            limitRessourcesByCat: 4
+
+        }
     },
     computed: {
-      categories(){
-        return this.$store.getters.getCategories;
-      },
-      ressources() {
-          return this.$store.getters.getRessources;
-      }
+        categories() {
+            return this.$store.getters.getCategories;
+        },
+        moreRessourceByCat() {
+
+            let id = this.$route.params.id;
+            return this.limitRessourcesByCat ? this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat) : this.ressources
+        },
+        ressources() {
+            let id = this.$route.params.id;
+            return this.$store.getters.getRessourcesByCategorieId(id);
+        }
     }
 }
 </script>

@@ -22,6 +22,12 @@ let mutations = {
 
   SET_CATEGORIES (state, data) {
     state.categories = data;
+  },
+
+  // LES PLATZERS
+
+  SET_PLATZERS (state, data) {
+    state.platzers = data;
   }
 
 }

@@ -20,5 +20,11 @@
      public function categorie(){
        return $this->belongsTo('App\Http\Models\Categorie');
      }
+     public function commentaire(){
+       return $this->hasMany('App\Http\Models\Commentaire');
+     }
+     public function platzer (){
+       return $this->belongsTo('App\Http\Models\Platzer');
+     }
 
    }

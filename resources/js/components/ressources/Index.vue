@@ -1,5 +1,5 @@
 <template>
-<div class="">
+<div class="" v-if="loaded">
     <section class="work">
 
         <figure v-for="ressource in moreRessource" :key="ressource.id" class="white">
@@ -19,7 +19,7 @@
     </section>
 
     <div id="wrapper-oldnew">
-        <button  @click="limitRessources += 4" class="btn btn-outline-dark btn-lg boutonCenter"type="button" name="button">More Ressources</button>
+        <button  @click="limitRessources += 8" class="btn btn-outline-dark btn-lg boutonCenter"type="button" name="button">More Ressources</button>
     </div>
 </div>
 </template>
@@ -30,7 +30,7 @@ export default {
         return {
             //ressources: [],
             //categories: []
-
+            loaded: false,
             limitRessources: 20
 
         }
@@ -46,8 +46,9 @@ export default {
 
     },
     created() {
-        //this.$store.dispatch('setPrenom', "Pierre");
-
+      this.$store.dispatch('setRessources').then(()=> { // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
+        this.loaded = true // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
+      });
     },
 
     methods: {

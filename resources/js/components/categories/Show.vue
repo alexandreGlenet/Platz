@@ -1,8 +1,9 @@
 <template>
 <div class="">
+
     <section class="work">
 
-        <figure v-for="ressource in ressources" :key="ressource.id" class="white">
+        <figure v-for="ressource in moreRessourceByCat" :key="ressource.id" class="white">
             <router-link :to="{name: 'ressources.show', params: { id: ressource.id }}">
                 <img :src="'storage/'+ressource.photo" alt="" />
                 <dl>
@@ -19,14 +20,7 @@
     </section>
 
     <div id="wrapper-oldnew">
-        <div class="oldnew">
-            <div class="wrapper-oldnew-prev">
-                <div id="oldnew-prev"></div>
-            </div>
-            <div class="wrapper-oldnew-next">
-                <div id="oldnew-next"></div>
-            </div>
-        </div>
+        <button @click="increaseRessourceByCat()" class="btn btn-outline-dark btn-lg boutonCenter" type="button" name="button">More Ressources</button>
     </div>
 </div>
 </template>
@@ -35,17 +29,25 @@
 export default {
     data() {
         return {
-             // ressources: [],
-             // categories: []
+            // ressources: [],
+            // categories: []
+            limitRessourcesByCat: 4,
+            // currentRessourcesByCat:''
         }
     },
 
+
     computed: {
 
-      ressources() {
-          let id = this.$route.params.id;
-          return this.$store.getters.getRessourcesByCategorieId(id);
-      }
+        ressources() {
+            let id = this.$route.params.id;
+            return this.$store.getters.getRessourcesByCategorieId(id);
+        },
+        moreRessourceByCat() {
+
+            let id = this.$route.params.id;
+            return this.limitRessourcesByCat ? this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat) : this.ressources
+        }
 
 
     },
@@ -55,9 +57,10 @@ export default {
     },
 
     methods: {
-        // getRessourcePhoto(){
-        //   return "/storage/ressources/" +this.photo;
-        // }
+        increaseRessourceByCat() {
+            //let id = this.$route.params.id;
+            this.limitRessourcesByCat += 4;
+        }
     }
 
 }

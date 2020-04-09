@@ -20,8 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('headIndex-component', require('./components/HeadIndexComponent.vue').default);
-Vue.component('scripts-component', require('./components/ScriptsComponent.vue').default);
+
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
 Vue.component('footer-component', require('./components/FooterComponent.vue').default);
 //Vue.component('ressources-component', require('./components/RessourcesComponent.vue').default);
@@ -42,7 +41,7 @@ const app = new Vue({
     store,
 
     created () {
-      this.$store.dispatch('setRessources');
+      // this.$store.dispatch('setRessources');
       this.$store.dispatch('setCategories');
     }
 

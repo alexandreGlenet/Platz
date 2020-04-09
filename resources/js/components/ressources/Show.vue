@@ -1,9 +1,15 @@
 <template>
-<div class="">
+  <!-- <div class="" v-if="ressource != undefined"> --> <!-- fonctionne sans mettre l'action dans le created et en le laissant dans le app.js pour résoudre l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”-->
+<div class="" v-if="loaded"> <!-- A partir du moment ou ressource est definis je charge le composant.-->
     <div class="title-item">
-        <div class="title-icon"></div>
-        <div class="title-text">Ipad Pro Mockup </div>
-        <div class="title-text-2">Sept 25, 2015 by Onuur</div>
+        <div class="title-icon"><img :src="'storage/'+ressource.categorie.icone" alt="" width="68" height="68" /></div>
+        <div class="title-text">{{ ressource.nom }}</div>
+        <div class="title-text-2">{{ ressource.created_at}} by
+          <span class="" v-if="ressource.platzer"> <!-- Je regarde si mon element platzer existe et si ma transaction axios est bien passée-->
+          {{ ressource.platzer.nom }} <!-- Si oui -->
+        </span>
+        <span v-else>pas de client</span> <!-- Si non -->
+        </div>
     </div>
 
     <div class="work">
@@ -16,8 +22,8 @@
 
 
             <div class="wrapper-file">
-                <div class="icon-file"><img src="img/icon-psdfile.svg" alt="" width="21" height="21" /></div>
-                <div class="text-file">Photoshop</div>
+                <div class="icon-file"><img :src="'storage/'+ressource.categorie.icone" alt="" width="21" height="21" /></div>
+                <div class="text-file">{{ ressource.categorie.nom }}</div>
             </div>
 
             <div class="wrapper-weight">
@@ -79,7 +85,9 @@
 
         <div class="post-send">
             <div id="main-post-send">
-                <div id="title-post-send">Add your comment</div>
+                <div id="title-post-send">AAAdd your comment</div>
+                <!-- <v-select :options="platzers"></v-select> -->
+
                 <form id="contact" method="post" action="/onclickprod/formsubmit_op.asp">
                     <fieldset>
                         <p><textarea id="message" name="message" maxlength="500" placeholder="Votre Message" tabindex="5" cols="30" rows="4"></textarea></p>
@@ -99,14 +107,28 @@
 export default {
     data() {
         return {
-
+          loaded : false
+          // categorie: ''
         }
     },
     computed: {
         ressource() {
+
             let id = this.$route.params.id;
+            console.log(this.$store.getters.getRessourceById(id));
+            // console.log(this.$store.getters.getRessourceById(id));
             return this.$store.getters.getRessourceById(id);
         }
+        // categorie() {
+        //     let id = this.$route.params.id;
+        //     return this.$store.getters.getCategorieById(id);
+        // }
+    },
+    created() {
+      this.$store.dispatch('setRessources').then(()=> { // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
+        this.loaded = true // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
+      });
+
     }
 }
 </script>
@@ -159,6 +181,8 @@ html {
     margin: 0;
     background-color: #F4F4F4;
 }
+
+
 
 .cache {
     width: 100%;
@@ -575,8 +599,8 @@ html {
 .icon-weight img,
 .icon-desc img,
 .icon-download img {
-    height: 100%;
-    width: 100%;
+    height: 21px;
+    width: 21px;
 }
 
 .text-view,
@@ -867,7 +891,7 @@ textarea.placeholder {
     float: left;
     width: 68px;
     height: 68px;
-    background: url(../../../../public/img/title-icon-ps.svg) no-repeat;
+    /* background: url(../../../../public/img/title-icon-ps.svg) no-repeat; */
     margin-right: 20px;
 }
 

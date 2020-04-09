@@ -11,15 +11,11 @@ use App\Http\Models\Ressource;
 
 class RessourcesController extends Controller
 {
-  /**
-   * [show description]
-   * @param  int    $id     [l'id de la créature]
-   * @param  string $slug   [slug du nom]
-   * @return [View]         [Vue Crétures/show.blade.php]
-   */
+
 
    public function index(){
-     return response()->json(Ressource::with('categorie')->get()); // renvoie le résultat de la requete sous format Json.
+     // dd(Ressource::with('categorie')->get());
+     return response()->json(Ressource::with('categorie')->with('platzer')->get()); // renvoie le résultat de la requete sous format Json.
      // Faire le store etc...
    }
 

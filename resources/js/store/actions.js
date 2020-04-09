@@ -5,12 +5,10 @@ let actions = {
         commit
     }) {
         //transaction AJAX
-        axios.get('api/ressources') // Obtenue dans : php artisan route:list
+        return axios.get('api/ressources') // Obtenue dans : php artisan route:list
             .then(reponsePHP => (commit('SET_RESSOURCES', reponsePHP.data)))
-            // axios.get('api/categories') // Obtenue dans : php artisan route:list
-            // .then(reponsePHP => (commit('SET_CATEGORIES', reponsePHP.data)))
-
-
+            axios.get('api/categories') // Obtenue dans : php artisan route:list
+            .then(reponsePHP => (commit('SET_CATEGORIES', reponsePHP.data)))
     },
 
     setCategories({
@@ -20,8 +18,28 @@ let actions = {
 
             axios.get('api/categories') // Obtenue dans : php artisan route:list
             .then(reponsePHP => (commit('SET_CATEGORIES', reponsePHP.data)))
+    },
 
+    // LES USERS
 
+    // setUsers({
+    //     commit
+    // }) {
+    //     //transaction AJAX
+    //
+    //         axios.get('Voyager/admin/users') // Obtenue dans : php artisan route:list
+    //         .then(reponsePHP => (commit('SET_PLATZERS', reponsePHP.data)))
+    // },
+
+    // LES PLATZERS
+
+    setPlatzers({
+        commit
+    }) {
+        //transaction AJAX
+
+            axios.get('api/platzers') // Obtenue dans : php artisan route:list
+            .then(reponsePHP => (commit('SET_PLATZERS', reponsePHP.data)))
     }
 
     // createRessource({

@@ -1,6 +1,8 @@
 // ./resources/js/store/getters.js
 let getters = {
 
+  // LES RESSOURCES
+
   getRessources(state) {
     return state.ressources;
   },
@@ -15,19 +17,9 @@ let getters = {
     return function (id){
       return state.ressources.filter(ressources => ressources.categorie.id == id);
   }
+},
 
-  // getRessourcesPerPage(state) {
-  //   return function (array, pageSize) {
-  //     return state.ressources.filter(ressources => ressources.categorie.id == id);
-  //   }
-  // }
-
-  },
-
-//   function getByCategory(list, category) {
-//   if (!category) return list
-//   return list.filter(item => item.category == category)
-// }
+  // LES CATEGORIES
 
   getCategories(state) {
     return state.categories;
@@ -37,7 +29,27 @@ let getters = {
     return function (id) { // Je transforme en fonction pour ma computed de mon Show.vue
       return state.categories.find(categorie => categorie.id == id);
     }
-  }
+  },
+
+  // LES PLATZERS ( utilisateurs de platz )
+
+  getPlatzers(state){
+    return state.platzers;
+  },
+
+  getPlatzerById(state) {
+    return function (id) { // Je transforme en fonction pour ma computed de mon Show.vue
+      return state.platzers.find(platzer => platzer.id == id);
+    }
+  },
+
+
+
+  // LES USERS ( VOYAGER )
+
+  // getUSers ( state) {
+  //   return.state.users;
+  // }
 
 }
 
