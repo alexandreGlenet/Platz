@@ -13,10 +13,7 @@
      protected $table = 'ressources';
      use Resizable;
 
-     // public function tags()
-     //   {
-     //     return $this->belongsToMany('App\Http\Models\Tag');
-     //   }
+     
      public function categorie(){
        return $this->belongsTo('App\Http\Models\Categorie');
      }

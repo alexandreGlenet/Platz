@@ -2127,7 +2127,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       // ressources: [],
       // categories: []
-      limitRessourcesByCat: 4 // currentRessourcesByCat:''
+      limitRessourcesByCat: 4,
+      newPage: 1,
+      lastIdCategory: 0 // currentRessourcesByCat:''
 
     };
   },
@@ -2137,11 +2139,36 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.getRessourcesByCategorieId(id);
     },
     moreRessourceByCat: function moreRessourceByCat() {
-      var id = this.$route.params.id;
-      return this.limitRessourcesByCat ? this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat) : this.ressources;
+      var id = this.$route.params.id; //Si limitRessourcesByCat existe
+
+      if (this.limitRessourcesByCat) {
+        console.log('Catégorie précédente : ' + this.lastIdCategory);
+        console.log('Id catégorie en cours : ' + id); //Si la catégorie précédente est la même que celle-ci, je continue a charger les posts
+
+        if (this.lastIdCategory == id) {
+          console.log('Limite des ressources : ' + this.limitRessourcesByCat);
+          return this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat);
+        } else {
+          this.lastIdCategory = id;
+          console.log('Nouveau lastIdCategory = ' + this.lastIdCategory);
+          this.limitRessourcesByCat = 4;
+          console.log('Nouveau limitRessourcesByCat = ' + this.limitRessourcesByCat);
+          return this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat);
+        }
+      } else {
+        console.log('limitRessourcesByCat Existe Pas');
+        return this.ressources;
+      } // return this.limitRessourcesByCat ? this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat) : this.ressources
+
     }
   },
-  created: function created() {//this.$store.dispatch('setPrenom', "Pierre");
+  created: function created() {
+    var _this = this;
+
+    this.$store.dispatch('setRessources').then(function () {
+      // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
+      _this.loaded = true; // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
+    });
   },
   methods: {
     increaseRessourceByCat: function increaseRessourceByCat() {
@@ -2332,19 +2359,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      loaded: false // categorie: ''
-
+      loaded: false,
+      downloadLink: ''
     };
   },
   computed: {
     ressource: function ressource() {
       var id = this.$route.params.id;
-      console.log(this.$store.getters.getRessourceById(id)); // console.log(this.$store.getters.getRessourceById(id));
+      var ressource = this.$store.getters.getRessourceById(id); // console.log(this.downloadLink = ressource.fichier.length);
+      // console.log(this.$store.getters.getRessourceById(id));
 
-      return this.$store.getters.getRessourceById(id);
+      if (ressource != undefined) {
+        // ici juste que j'ai une idée si jamais ressource etait inexistant
+        if (ressource.fichier.length > 2) {
+          this.downloadLink = JSON.parse(ressource.fichier)[0].download_link;
+        } else {
+          //
+          this.downloadLink = ''; // console.log(this.downloadLink.length);
+        }
+
+        return ressource;
+      } else {
+        // le else du ressource undefined ici par exemple je peux me mettre une redirection 404 vraiment en cas ou ressource serait inexistant, mais dans ce cas-ci est impossible quasi(sauf si petit malin bidouille)
+        console.log('ressource is undefined');
+      }
     } // categorie() {
     //     let id = this.$route.params.id;
     //     return this.$store.getters.getCategorieById(id);
@@ -38978,11 +39028,13 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "title-text-2" }, [
-            _vm._v(_vm._s(_vm.ressource.created_at) + " by\n          "),
+            _vm._v(_vm._s(_vm.ressource.created_at) + " by\n            "),
             _vm.ressource.platzer
               ? _c("span", {}, [
                   _vm._v(
-                    "\n          " + _vm._s(_vm.ressource.platzer.nom) + " "
+                    "\n                " +
+                      _vm._s(_vm.ressource.platzer.nom) +
+                      " "
                   )
                 ])
               : _c("span", [_vm._v("pas de client")])
@@ -38990,7 +39042,11 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "work" }, [
-          _vm._m(0),
+          _c("figure", { staticClass: "white" }, [
+            _c("img", {
+              attrs: { src: "storage/" + _vm.ressource.photo, alt: "" }
+            })
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "wrapper-text-description" }, [
             _c("div", { staticClass: "wrapper-file" }, [
@@ -39010,35 +39066,52 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
-            _vm._m(2),
+            _c("div", { staticClass: "wrapper-desc" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-desc" }, [
+                _vm._v(_vm._s(_vm.ressource.description))
+              ])
+            ]),
             _vm._v(" "),
-            _vm._m(3),
+            _c("div", { staticClass: "wrapper-download" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-download" }, [
+                _vm.downloadLink.length > 0
+                  ? _c("span", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "storage/" + _vm.downloadLink,
+                            target: "_blank"
+                          }
+                        },
+                        [_c("b", [_vm._v("download")])]
+                      )
+                    ])
+                  : _c("span", [_vm._v("pas de fichier")])
+              ])
+            ]),
             _vm._v(" "),
-            _vm._m(4)
+            _vm._m(3)
           ]),
+          _vm._v(" "),
+          _vm._m(4),
           _vm._v(" "),
           _vm._m(5),
           _vm._v(" "),
           _vm._m(6),
           _vm._v(" "),
-          _vm._m(7),
-          _vm._v(" "),
-          _vm._m(8)
+          _vm._m(7)
         ])
       ])
     : _vm._e()
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("figure", { staticClass: "white" }, [
-      _c("img", { attrs: { src: "img/psd-4.jpg", alt: "" } })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -39062,44 +39135,25 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrapper-desc" }, [
-      _c("div", { staticClass: "icon-desc" }, [
-        _c("img", {
-          attrs: {
-            src: "img/icon-desc.svg",
-            alt: "",
-            width: "24",
-            height: "24"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-desc" }, [
-        _vm._v(
-          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam\n                    felis, ultricies nec, pellentesque eu, pretium quis, sem. "
-        )
-      ])
+    return _c("div", { staticClass: "icon-desc" }, [
+      _c("img", {
+        attrs: { src: "img/icon-desc.svg", alt: "", width: "24", height: "24" }
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "wrapper-download" }, [
-      _c("div", { staticClass: "icon-download" }, [
-        _c("img", {
-          attrs: {
-            src: "img/icon-download.svg",
-            alt: "",
-            width: "19",
-            height: "26"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-download" }, [
-        _c("a", { attrs: { href: "#" } }, [_c("b", [_vm._v("Download")])])
-      ])
+    return _c("div", { staticClass: "icon-download" }, [
+      _c("img", {
+        attrs: {
+          src: "img/icon-download.svg",
+          alt: "",
+          width: "19",
+          height: "26"
+        }
+      })
     ])
   },
   function() {

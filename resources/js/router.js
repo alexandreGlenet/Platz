@@ -23,7 +23,8 @@ export default new Router({
     {
       path: '/categories/:id',
       name: 'categories.show',
-      component: CategoriesShow
+      component: CategoriesShow,
+      
     }
 
     // Et en envoyant des props au composant !!!
