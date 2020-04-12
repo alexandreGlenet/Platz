@@ -39,12 +39,12 @@
                 <option v-for="platzer in platzers" :key="platzer.id">{{ platzer.nom }}</option>
                 </select> -->
                 <div class="mb-3">
-                  <div class="text-red" v-if="errors.autheur" v-text="errors.autheur[0]"></div>
-                  <input type="text" class="pseudo border rounded p-3" v-model="form.autheur" placeholder="Votre pseudo">
+                  <div class="text-red px-3 py-1" v-if="errors.autheur" v-text="errors.autheur[0]"></div>
+                  <input type="text" class="pseudo border rounded p-3" v-model="form.autheur" :class="{'border-red': errors.autheur}" placeholder="Votre pseudo">
                 </div>
                 <div class="mb-3">
-                  <div class="text-red" v-if="errors.content" v-text="errors.content[0]"></div>
-                  <textarea class="border rounded p-3" v-model="form.content" placeholder="Votre commentaire"></textarea>
+                  <div class="text-red px-3 py-1" v-if="errors.content" v-text="errors.content[0]"></div>
+                  <textarea class="border rounded p-3" v-model="form.content" :class="{'border-red': errors.content}" placeholder="Votre commentaire"></textarea>
                 </div>
 
 
@@ -94,6 +94,7 @@ export default {
                  .then(({data}) => {
                    this.comments.push(data)
                    this.form.content = ""
+                   this.errors = {}
                    // this.form.autheur = ""
             })
             // console.log(this.comment)
@@ -429,6 +430,10 @@ html {
     left: 50%;
     margin-left: -65.5px;
     background: url(../../../../public/img/small-logo.svg) no-repeat;
+}
+
+.border-red {
+  border: 1px solid red !important;
 }
 
 /*----------------------------*/
@@ -838,7 +843,7 @@ input[type=submit] {
     /** Opera **/
     background-color: #74BDEC;
     float: left;
-    border: none;
+    /* border: none; */
 }
 
 fieldset {
