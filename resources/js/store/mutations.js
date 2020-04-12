@@ -28,7 +28,17 @@ let mutations = {
 
   SET_PLATZERS (state, data) {
     state.platzers = data;
+  },
+
+  // LES COMMENTAIRES
+
+  SET_COMMENTAIRES (state, data) {
+    state.commentaires = data;
   }
+
+  // CREATE_COMMENTAIRE (state, commentaire) {
+  //   state.commentaires = data;
+  // }
 
 }
 export default mutations

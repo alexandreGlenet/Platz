@@ -29,12 +29,11 @@
 export default {
     data() {
         return {
-            // ressources: [],
-            // categories: []
+
             limitRessourcesByCat: 4,
             newPage: 1,
             lastIdCategory: 0
-            // currentRessourcesByCat:''
+
         }
     },
 

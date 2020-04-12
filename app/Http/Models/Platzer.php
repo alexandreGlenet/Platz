@@ -17,6 +17,11 @@
        {
          return $this->hasMany('App\Http\Models\Ressource');
        }
+
+     public function commentaire()
+      {
+        return $this->hasMany('App\Http\Models\Commetaire');
+      }
      // public function categorie(){
      //   return $this->belongsTo('App\Http\Models\Categorie');
      // }

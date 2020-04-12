@@ -28,3 +28,7 @@ Route::resource('categories', 'CategoriesController', [
 Route::resource('platzers', 'PlatzersController', [
   'except' => ['show', 'create', 'edit']
 ]);
+
+Route::resource('commentaires', 'CommentairesController', [
+  'except' => ['show', 'create', 'edit']
+]);

@@ -19,3 +19,5 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+Route::post('/commentaires', 'CommentairesController@store'); // ici le nom de methode store est une convention je pourrais l'appeller comme je veux.

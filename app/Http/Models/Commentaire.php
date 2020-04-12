@@ -11,6 +11,7 @@
       */
 
      protected $table = 'commentaires';
+     protected $fillable = ['autheur', 'url', 'content'];
      use Resizable;
 
      // public function tags()
@@ -20,8 +21,8 @@
      public function ressource(){
        return $this->belongsTo('App\Http\Models\Ressource');
      }
-     public function user(){
-       return $this->belongsTo('App\User');
+     public function platzer(){
+       return $this->belongsTo('App\Http\Models\Platzer');
      }
 
 

@@ -23,6 +23,7 @@ window.Vue = require('vue');
 
 Vue.component('header-component', require('./components/HeaderComponent.vue').default);
 Vue.component('footer-component', require('./components/FooterComponent.vue').default);
+Vue.component('comment-form-component', require('./components/commentaires/CommentForm.vue').default);
 //Vue.component('ressources-component', require('./components/RessourcesComponent.vue').default);
 
 
@@ -43,6 +44,8 @@ const app = new Vue({
     created () {
       // this.$store.dispatch('setRessources');
       this.$store.dispatch('setCategories');
+      this.$store.dispatch('setPlatzers');
+      this.$store.dispatch('setCommentaires');
     }
 
 });

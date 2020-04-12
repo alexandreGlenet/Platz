@@ -15,7 +15,7 @@ class RessourcesController extends Controller
 
    public function index(){
      // dd(Ressource::with('categorie')->get());
-     return response()->json(Ressource::with('categorie')->with('platzer')->get()); // renvoie le résultat de la requete sous format Json.
+     return response()->json(Ressource::with('categorie')->with('platzer')->with('commentaire')->get()); // renvoie le résultat de la requete sous format Json.
      // Faire le store etc...
      // $file = (json_decode($ressource->fichier))[0]->download_link;
    }

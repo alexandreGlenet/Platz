@@ -43,6 +43,24 @@ let getters = {
     }
   },
 
+  // LES COMMENTAIRES
+
+  getCommentaires(state){
+    return state.commentaires;
+  },
+
+  getCommentaireById(state) {
+    return function (id) { // Je transforme en fonction pour ma computed de mon Show.vue
+      return state.commentaires.find(commentaire => commentaire.id == id);
+    }
+  },
+
+  // getPlatzerById(state) {
+  //   return function (id) {
+  //     return state.platzers.find(platzer => platzer.id == id);
+  //   }
+  // },
+
 
 
   // LES USERS ( VOYAGER )

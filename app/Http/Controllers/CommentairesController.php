@@ -11,28 +11,31 @@ use App\Http\Models\Commentaire;
 
 class CommentairesController extends Controller
 {
-  /**
-   * [show description]
-   * @param  int    $id     [l'id de la créature]
-   * @param  string $slug   [slug du nom]
-   * @return [View]         [Vue Crétures/show.blade.php]
-   */
 
-   public function index(){
      public function index(){
-       return response()->json(Commentaire::with('user')->get()); // renvoie le résultat de la requete sous format Json.
+       return response()->json(Commentaire::with('platzer')->with('ressource')->get()); // renvoie le résultat de la requete sous format Json.
        // Faire le store etc...
      }
-   //
-   //  public function show(int $id = 1, string $slug = null)
-   //  {
-   //    $article = Article::find($id);
-   //    return View::make('articles.show', compact('article'));
-   //  }
-   //
-   //  public function search()
-   //  {
-   //
-   //  }
+
+     // -----------------------------------------------------
+
+     public function store(){
+
+       request()->validate([
+         'autheur' => ['required'],
+         'content' => ['required'],
+       ]);
+
+       return Commentaire::create([ // créer le commentaire en db
+         'autheur' => request('autheur'),//'invité',
+         'url' => 'url',
+         'content' => request('content'),
+
+       ]);
+
+        // return "Votre commentaire a bien été ajouté !";
+
+     }
+
 
 }

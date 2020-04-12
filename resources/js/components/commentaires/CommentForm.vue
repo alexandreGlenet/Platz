@@ -1,197 +1,110 @@
 <template>
-<!-- <div class="" v-if="ressource != undefined"> -->
-<!-- fonctionne sans mettre l'action dans le created et en le laissant dans le app.js pour résoudre l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”-->
-<div class="" v-if="loaded" :data-comments="commentaires">
-    <!-- A partir du moment ou ressource est definis je charge le composant.-->
-    <div class="title-item">
-        <div class="title-icon"><img :src="'storage/'+ressource.categorie.icone" alt="" width="68" height="68" /></div>
-        <div class="title-text">{{ ressource.nom }}</div>
-        <div class="title-text-2">{{ ressource.created_at}} by
-            <span class="" v-if="ressource.platzer">
-                <!-- Je regarde si mon element platzer existe et si ma transaction axios est bien passée-->
-                {{ ressource.platzer.nom }} <!-- Si oui -->
-            </span>
-            <span v-else>pas de client</span> <!-- Si non -->
-        </div>
-    </div>
-
-    <div class="work">
-        <figure class="white">
-            <img :src="'storage/'+ressource.photo" alt="" />
-
-        </figure>
-
-        <div class="wrapper-text-description">
-
-
-            <div class="wrapper-file">
-                <div class="icon-file"><img :src="'storage/'+ressource.categorie.icone" alt="" width="21" height="21" /></div>
-                <div class="text-file">{{ ressource.categorie.nom }}</div>
-            </div>
-
-            <div class="wrapper-weight">
-                <div class="icon-weight"><img src="img/icon-weight.svg" alt="" width="20" height="23" /></div>
-                <div class="text-weight">23 Mo</div>
-            </div>
-
-            <div class="wrapper-desc">
-                <div class="icon-desc"><img src="img/icon-desc.svg" alt="" width="24" height="24" /></div>
-                <div class="text-desc">{{ ressource.description }}</div>
-            </div>
-
-            <div class="wrapper-download">
-                <div class="icon-download"><img src="img/icon-download.svg" alt="" width="19" height="26" /></div>
-                <div class="text-download">
-                    <span v-if="downloadLink.length > 0">
-
-                        <a :href="'storage/'+ downloadLink" target="_blank"><b>download</b></a>
-
-                    </span>
-                    <span v-else>pas de fichier</span> <!-- Si non -->
-                </div>
-            </div>
-
-            <div class="wrapper-morefrom">
-                <div class="text-morefrom">More from .psd</div>
-                <div class="image-morefrom">
-                    <a href="#">
-                        <div class="image-morefrom-1"><img src="img/psd-1.jpg" alt="" width="430" height="330" /></div>
-                    </a>
-                    <a href="#">
-                        <div class="image-morefrom-2"><img src="img/psd-2.jpg" alt="" width="430" height="330" /></div>
-                    </a>
-                    <a href="#">
-                        <div class="image-morefrom-3"><img src="img/psd-3.jpg" alt="" width="430" height="330" /></div>
-                    </a>
-                    <a href="#">
-                        <div class="image-morefrom-4"><img src="img/psd-6.jpg" alt="" width="430" height="330" /></div>
-                    </a>
-                </div>
-            </div>
-
+<div class="">
+    <!-- <h1>HelloComment</h1> -->
+    <div class="post-reply">
+        <div id="title-post-send">
+            <hr />
+            <h2>Your comments</h2>
         </div>
 
-        <!-- <div class="post-reply">
-            <div id="title-post-send">
-                <hr />
-                <h2>Your comments</h2>
-            </div>
-
-
-        </div>
-
-        <div class="post-reply" v-for="commentaire in commentaires" :key="commentaire.id">
-            <div class="image-reply-post"></div>
-            <span class="" v-if="commentaire.platzer">
-            <div class="name-reply-post">{{ commentaire.platzer.nom}}</div>
-            </span>
-            <span v-else>{{ commentaire.autheur }}</span>
-            <div class="text-reply-post">{{ commentaire.content }}</div>
-        </div>
-
-
-
-        <div class="post-send">
-
-            <div id="main-post-send">
-              <div id="title-post-send">
-                AAAdd your comment
-                  <select v-model="ressource.platzer">
-                  <option v-for="platzer in platzers" :key="platzer.id">{{ platzer.nom }}</option>
-                </select>
-
-              </div>
-
-
-
-                <form id="contact" method="post" action="/onclickprod/formsubmit_op.asp">
-                    <fieldset>
-                        <p><textarea id="message" v-model:lazy="message" name="message" maxlength="500" placeholder="Votre Message" tabindex="5" cols="30" rows="4"></textarea></p>
-                    </fieldset>
-                    <div style="text-align:center;"><input type="submit" name="envoi" value="Envoyer" /></div>
-                </form>
-            </div>
-        </div> -->
-        <!-- <comment-form></comment-form> -->
-        <comment-form-component :dataComments='commentaires'></comment-form-component>
 
     </div>
-</div>
-</div>
+    <div class="post-reply" v-for="commentaire in commentaires" :key="commentaire.id">
+        <div class="image-reply-post"></div>
+
+        <div class="name-reply-post">
+          <span class="" v-if="commentaire.platzer">
+            {{ commentaire.platzer.nom}} - {{ commentaire.created_at }}
+          </span>
+          <span v-else>
+            {{ commentaire.autheur }} - {{ commentaire.created_at }}
+          </span>
+        </div>
+
+
+        <div class="text-reply-post">{{ commentaire.content }}</div>
+    </div>
+
+    <div class="post-send">
+
+        <div id="main-post-send">
+          <div id="title-post-send" class="mt-3 mb-3">
+            Add your comment
+          </div>
+
+          <form class="flex flex-col" @submit.prevent="submitComment">
+              <fieldset>
+                <!-- <select v-model="ressource.platzer"> -->
+                <!-- <select v-model="platzer">
+                <option v-for="platzer in platzers" :key="platzer.id">{{ platzer.nom }}</option>
+                </select> -->
+                <div class="mb-3">
+                  <div class="text-red" v-if="errors.autheur" v-text="errors.autheur[0]"></div>
+                  <input type="text" class="pseudo border rounded p-3" v-model="form.autheur" placeholder="Votre pseudo">
+                </div>
+                <div class="mb-3">
+                  <div class="text-red" v-if="errors.content" v-text="errors.content[0]"></div>
+                  <textarea class="border rounded p-3" v-model="form.content" placeholder="Votre commentaire"></textarea>
+                </div>
+
+
+              </fieldset>
+              <button type="submit" class="border rounded py-2 btn btn-primary mt-3">Commenter</button>
+          </form>
+        </div>
+
+    </div>
+
+
+
 
 </div>
-
-</div>
-
 </template>
 
 <script>
-
-import CommentForm from '../commentaires/CommentForm.vue'
 export default {
-    components: {
-      commentForm: CommentForm,
-    },
+    props: ['dataComments'],
+    name: "CommentForm",
     data() {
         return {
-            loaded: false,
-            downloadLink: '',
-            platzer: "",
-            message: ""
-
+          form: {
+            autheur: '',
+            content: ''
+          },
+          comments: this.dataComments,
+          errors: {}
         }
     },
     computed: {
 
       commentaires() {
           return this.$store.getters.getCommentaires;
-          // console.log(platzers.nom);
+
       },
 
         platzers() {
             return this.$store.getters.getPlatzers;
-            // console.log(platzers.nom);
-        },
-
-        ressource() {
-            let id = this.$route.params.id;
-            let ressource = this.$store.getters.getRessourceById(id);
-
-            // console.log(this.downloadLink = ressource.fichier.length);
-            // console.log(this.$store.getters.getRessourceById(id));
-            if (ressource != undefined) { // ici juste que j'ai une idée si jamais ressource etait inexistant
-                if (ressource.fichier.length > 2) {
-
-                    this.downloadLink = JSON.parse(ressource.fichier)[0].download_link;
-
-                } else {
-                    //
-                    this.downloadLink = '';
-                    // console.log(this.downloadLink.length);
-                }
-                return ressource;
-            } else { // le else du ressource undefined ici par exemple je peux me mettre une redirection 404 vraiment en cas ou ressource serait inexistant, mais dans ce cas-ci est impossible quasi(sauf si petit malin bidouille)
-                console.log('ressource is undefined');
-            }
-
 
         },
 
-        // categorie() {
-        //     let id = this.$route.params.id;
-        //     return this.$store.getters.getCategorieById(id);
-        // }
+    },
+    methods: {
+        submitComment() {
+            axios.post('/commentaires', this.form)
+                 .then(({data}) => {
+                   this.comments.push(data)
+                   this.form.content = ""
+                   // this.form.autheur = ""
+            })
+            // console.log(this.comment)
+            .catch(error => {
+              // console.dir(error.response.data.errors)
+              this.errors = error.response.data.errors
+            })
+        },
     },
 
-    created() {
-        this.$store.dispatch('setRessources').then(() => { // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
-            this.loaded = true // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
-        });
 
-
-
-
-    }
 }
 </script>
 
@@ -213,7 +126,9 @@ ul {
     margin: 0;
     padding: 0;
 }
-
+.text-red {
+  color: red;
+}
 .anim-1,
 .anim-2 {
     display: none;
@@ -875,6 +790,12 @@ html {
     /* position: relative; */
 }
 
+.pseudo {
+  max-width: 400px;
+  width: 100%;
+  height: auto;
+}
+
 textarea {
     font-family: Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -882,7 +803,8 @@ textarea {
     font-size: 16px;
     font-weight: 400;
     color: #999;
-    width: 320px;
+    max-width: 400px;
+    width: 100%;
     height: 150px;
     background: #FFF;
     outline: none;
@@ -891,7 +813,7 @@ textarea {
     padding-left: 10px;
     padding-top: 10px;
     float: left;
-    margin-left: -15px;
+    /* margin-left: -15px; */
     /* margin-top: -25px; */
 }
 

@@ -40,16 +40,25 @@ let actions = {
 
             axios.get('api/platzers') // Obtenue dans : php artisan route:list
             .then(reponsePHP => (commit('SET_PLATZERS', reponsePHP.data)))
+    },
+
+    // LES COMMENTAIRES
+
+    setCommentaires({
+        commit
+    }) {
+        //transaction AJAX
+
+            axios.get('api/commentaires') // Obtenue dans : php artisan route:list
+            .then(reponsePHP => (commit('SET_COMMENTAIRES', reponsePHP.data)))
     }
 
-    // createRessource({
-    //     commit
-    // }, ressource) {
-    //     axios.ressource('/api/ressources', ressource)
+    // createCommentaire({commit}, commentaire) {
+    //     axios.post('api/ressources', commentaire)
     //         .then(reponsePHP => {
-    //             commit('CREATE_RESSOURCE', reponsePHP.data)
+    //             commit('CREATE_COMMENTAIRE', reponsePHP.data)
     //         })
-    // },
+    // }
     // fetchRessources({
     //     commit
     // }) {
