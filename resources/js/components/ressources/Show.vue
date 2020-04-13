@@ -55,11 +55,13 @@
                 <div class="text-morefrom">More from .psd</div>
                 <div class="image-morefrom" >
                   <div class="" v-for="ressource in moreRessourceByCat" :key="ressource.id">
-                    <a href="#">
-                        <div class="image-morefrom-1">
-                          <img :src="'storage/'+ressource.photo" alt="" width="430" height="330" />
-                        </div>
-                    </a>
+                    <router-link :to="{name: 'ressources.show', params: { id: ressource.id }}">
+                      <a href="#">
+                          <div class="image-morefrom-1">
+                            <img :src="'storage/'+ressource.photo" alt="" width="430" height="330" />
+                          </div>
+                      </a>
+                    </router-link>
                   </div>
 
 

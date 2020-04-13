@@ -2505,6 +2505,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -39518,20 +39520,38 @@ var render = function() {
                   "div",
                   { staticClass: "image-morefrom" },
                   _vm._l(_vm.moreRessourceByCat, function(ressource) {
-                    return _c("div", { key: ressource.id }, [
-                      _c("a", { attrs: { href: "#" } }, [
-                        _c("div", { staticClass: "image-morefrom-1" }, [
-                          _c("img", {
+                    return _c(
+                      "div",
+                      { key: ressource.id },
+                      [
+                        _c(
+                          "router-link",
+                          {
                             attrs: {
-                              src: "storage/" + ressource.photo,
-                              alt: "",
-                              width: "430",
-                              height: "330"
+                              to: {
+                                name: "ressources.show",
+                                params: { id: ressource.id }
+                              }
                             }
-                          })
-                        ])
-                      ])
-                    ])
+                          },
+                          [
+                            _c("a", { attrs: { href: "#" } }, [
+                              _c("div", { staticClass: "image-morefrom-1" }, [
+                                _c("img", {
+                                  attrs: {
+                                    src: "storage/" + ressource.photo,
+                                    alt: "",
+                                    width: "430",
+                                    height: "330"
+                                  }
+                                })
+                              ])
+                            ])
+                          ]
+                        )
+                      ],
+                      1
+                    )
                   }),
                   0
                 )
