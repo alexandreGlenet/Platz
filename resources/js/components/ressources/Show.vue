@@ -113,7 +113,7 @@
             </div>
         </div> -->
         <!-- <comment-form></comment-form> -->
-        <comment-form-component :dataComments='commentaires'></comment-form-component>
+        <comment-form-component :data-comments='commentaires'></comment-form-component>
 
     </div>
 </div>

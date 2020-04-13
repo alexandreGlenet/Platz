@@ -11,7 +11,7 @@
       */
 
      protected $table = 'commentaires';
-     protected $fillable = ['autheur', 'url', 'content'];
+     protected $fillable = ['autheur', 'url', 'content', 'ressource_id'];
      use Resizable;
 
      // public function tags()

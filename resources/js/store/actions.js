@@ -51,6 +51,7 @@ let actions = {
 
             axios.get('api/commentaires') // Obtenue dans : php artisan route:list
             .then(reponsePHP => (commit('SET_COMMENTAIRES', reponsePHP.data)))
+            
     }
 
     // createCommentaire({commit}, commentaire) {

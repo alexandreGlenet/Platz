@@ -24,12 +24,14 @@ class CommentairesController extends Controller
        request()->validate([
          'autheur' => ['required'],
          'content' => ['required'],
+         'ressource_id' => ['required'],
        ]);
 
        return Commentaire::create([ // créer le commentaire en db
          'autheur' => request('autheur'),//'invité',
-         'url' => 'url',
+         //'url' => 'url',
          'content' => request('content'),
+         'ressource_id' => request('ressource_id'),
 
        ]);
 

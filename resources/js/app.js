@@ -42,7 +42,7 @@ const app = new Vue({
     store,
 
     created () {
-      // this.$store.dispatch('setRessources');
+      this.$store.dispatch('setRessources');
       this.$store.dispatch('setCategories');
       this.$store.dispatch('setPlatzers');
       this.$store.dispatch('setCommentaires');

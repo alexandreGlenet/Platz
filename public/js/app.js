@@ -2250,21 +2250,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['dataComments'],
+  //props: ['dataComments'],
   name: "CommentForm",
   data: function data() {
     return {
-      form: {
-        autheur: '',
-        content: ''
-      },
-      comments: this.dataComments,
+      autheur: '',
+      content: '',
+      ressource_id: this.$route.params.id,
+      //comments: this.dataComments,
       errors: {}
     };
   },
   computed: {
     commentaires: function commentaires() {
-      return this.$store.getters.getCommentaires;
+      var id = this.$route.params.id;
+      return this.$store.getters.getCommentairesByRessourceId(id);
     },
     platzers: function platzers() {
       return this.$store.getters.getPlatzers;
@@ -2274,19 +2274,34 @@ __webpack_require__.r(__webpack_exports__);
     submitComment: function submitComment() {
       var _this = this;
 
-      axios.post('/commentaires', this.form).then(function (_ref) {
+      var id = this.$route.params.id;
+      axios.post('/commentaires', {
+        ressource_id: this.ressource_id,
+        autheur: this.autheur,
+        content: this.content
+      }).then(function (_ref) {
         var data = _ref.data;
 
-        _this.comments.push(data);
+        _this.commentaires.push(data);
 
-        _this.form.content = "";
+        _this.content = "";
         _this.errors = {}; // this.form.autheur = ""
-      }) // console.log(this.comment)
-      ["catch"](function (error) {
+      })["catch"](function (error) {
         // console.dir(error.response.data.errors)
         _this.errors = error.response.data.errors;
       });
+      console.log(this.$route.params.id);
     }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    this.$store.dispatch('setCommentaires').then(function () {
+      _this2.loaded = true;
+    });
+    this.$store.dispatch('setRessources').then(function () {
+      _this2.loaded = true;
+    });
   }
 });
 
@@ -39173,20 +39188,20 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.form.autheur,
-                        expression: "form.autheur"
+                        value: _vm.autheur,
+                        expression: "autheur"
                       }
                     ],
                     staticClass: "pseudo border rounded p-3",
                     class: { "border-red": _vm.errors.autheur },
                     attrs: { type: "text", placeholder: "Votre pseudo" },
-                    domProps: { value: _vm.form.autheur },
+                    domProps: { value: _vm.autheur },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.form, "autheur", $event.target.value)
+                        _vm.autheur = $event.target.value
                       }
                     }
                   })
@@ -39205,20 +39220,20 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.form.content,
-                        expression: "form.content"
+                        value: _vm.content,
+                        expression: "content"
                       }
                     ],
                     staticClass: "border rounded p-3",
                     class: { "border-red": _vm.errors.content },
                     attrs: { placeholder: "Votre commentaire" },
-                    domProps: { value: _vm.form.content },
+                    domProps: { value: _vm.content },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.form, "content", $event.target.value)
+                        _vm.content = $event.target.value
                       }
                     }
                   })
@@ -39467,7 +39482,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("comment-form-component", {
-              attrs: { dataComments: _vm.commentaires }
+              attrs: { "data-comments": _vm.commentaires }
             })
           ],
           1
@@ -55895,7 +55910,7 @@ var app = new Vue({
   router: _router_js__WEBPACK_IMPORTED_MODULE_1__["default"],
   store: _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"],
   created: function created() {
-    // this.$store.dispatch('setRessources');
+    this.$store.dispatch('setRessources');
     this.$store.dispatch('setCategories');
     this.$store.dispatch('setPlatzers');
     this.$store.dispatch('setCommentaires');
@@ -56596,6 +56611,13 @@ var getters = {
       // Je transforme en fonction pour ma computed de mon Show.vue
       return state.commentaires.find(function (commentaire) {
         return commentaire.id == id;
+      });
+    };
+  },
+  getCommentairesByRessourceId: function getCommentairesByRessourceId(state) {
+    return function (id) {
+      return state.commentaires.filter(function (commentaires) {
+        return commentaires.ressource.id == id;
       });
     };
   } // getPlatzerById(state) {

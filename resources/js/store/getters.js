@@ -55,6 +55,12 @@ let getters = {
     }
   },
 
+  getCommentairesByRessourceId(state) {
+    return function (id){
+      return state.commentaires.filter(commentaires => commentaires.ressource.id == id);
+  }
+},
+
   // getPlatzerById(state) {
   //   return function (id) {
   //     return state.platzers.find(platzer => platzer.id == id);

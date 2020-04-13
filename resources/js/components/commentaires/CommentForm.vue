@@ -40,11 +40,11 @@
                 </select> -->
                 <div class="mb-3">
                   <div class="text-red px-3 py-1" v-if="errors.autheur" v-text="errors.autheur[0]"></div>
-                  <input type="text" class="pseudo border rounded p-3" v-model="form.autheur" :class="{'border-red': errors.autheur}" placeholder="Votre pseudo">
+                  <input type="text" class="pseudo border rounded p-3" v-model="autheur" :class="{'border-red': errors.autheur}" placeholder="Votre pseudo">
                 </div>
                 <div class="mb-3">
                   <div class="text-red px-3 py-1" v-if="errors.content" v-text="errors.content[0]"></div>
-                  <textarea class="border rounded p-3" v-model="form.content" :class="{'border-red': errors.content}" placeholder="Votre commentaire"></textarea>
+                  <textarea class="border rounded p-3" v-model="content" :class="{'border-red': errors.content}" placeholder="Votre commentaire"></textarea>
                 </div>
 
 
@@ -63,22 +63,24 @@
 
 <script>
 export default {
-    props: ['dataComments'],
+    //props: ['dataComments'],
     name: "CommentForm",
     data() {
         return {
-          form: {
+
             autheur: '',
-            content: ''
-          },
-          comments: this.dataComments,
+            content: '',
+            ressource_id: this.$route.params.id,
+
+          //comments: this.dataComments,
           errors: {}
         }
     },
     computed: {
 
       commentaires() {
-          return this.$store.getters.getCommentaires;
+        let id = this.$route.params.id;
+        return this.$store.getters.getCommentairesByRessourceId(id);
 
       },
 
@@ -90,19 +92,35 @@ export default {
     },
     methods: {
         submitComment() {
-            axios.post('/commentaires', this.form)
-                 .then(({data}) => {
-                   this.comments.push(data)
-                   this.form.content = ""
+          let id = this.$route.params.id;
+            axios.post('/commentaires', {
+                ressource_id : this.ressource_id,
+                autheur : this.autheur,
+                content : this.content,
+            }).then(({data}) => {
+
+                   this.commentaires.push(data)
+
+                   this.content = ""
                    this.errors = {}
                    // this.form.autheur = ""
             })
-            // console.log(this.comment)
+
             .catch(error => {
               // console.dir(error.response.data.errors)
               this.errors = error.response.data.errors
             })
+            console.log(this.$route.params.id)
         },
+    },
+    created() {
+        this.$store.dispatch('setCommentaires').then(() => {
+            this.loaded = true
+        });
+        this.$store.dispatch('setRessources').then(() => {
+            this.loaded = true
+        });
+
     },
 
 
