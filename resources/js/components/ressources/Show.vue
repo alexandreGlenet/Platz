@@ -53,19 +53,16 @@
 
             <div class="wrapper-morefrom">
                 <div class="text-morefrom">More from .psd</div>
-                <div class="image-morefrom">
+                <div class="image-morefrom" >
+                  <div class="" v-for="ressource in moreRessourceByCat" :key="ressource.id">
                     <a href="#">
-                        <div class="image-morefrom-1"><img src="img/psd-1.jpg" alt="" width="430" height="330" /></div>
+                        <div class="image-morefrom-1">
+                          <img :src="'storage/'+ressource.photo" alt="" width="430" height="330" />
+                        </div>
                     </a>
-                    <a href="#">
-                        <div class="image-morefrom-2"><img src="img/psd-2.jpg" alt="" width="430" height="330" /></div>
-                    </a>
-                    <a href="#">
-                        <div class="image-morefrom-3"><img src="img/psd-3.jpg" alt="" width="430" height="330" /></div>
-                    </a>
-                    <a href="#">
-                        <div class="image-morefrom-4"><img src="img/psd-6.jpg" alt="" width="430" height="330" /></div>
-                    </a>
+                  </div>
+
+
                 </div>
             </div>
 
@@ -137,7 +134,11 @@ export default {
             loaded: false,
             downloadLink: '',
             platzer: "",
-            message: ""
+            message: "",
+            limitRessourcesByCat: 4,
+            newPage: 1,
+            // ressource: this.$store.getters.getRessourceById(id);
+            //CurrentIdCategory: this.ressource.categorie_id
 
         }
     },
@@ -177,11 +178,50 @@ export default {
 
         },
 
+        moreRessourceByCat() {
+
+            let id = this.ressource.categorie_id;
+            //Si limitRessourcesByCat existe
+
+            if (this.limitRessourcesByCat) {
+
+                //console.log('Catégorie précédente : ' + this.lastIdCategory)
+                //console.log('Id catégorie en cours : ' + id)
+                //Si la catégorie précédente est la même que celle-ci, je continue a charger les posts
+                if (this.ressource.categorie_id == id) {
+                    console.log('Id de la categorie :' + this.ressource.categorie_id)
+                    //console.log('Limite des ressources : ' + this.limitRessourcesByCat)
+                    return this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat)
+                } else {
+                    this.lastIdCategory = id
+                    //console.log('essais' + this.CurrentIdCategory);
+                    //console.log('Nouveau lastIdCategory = ' + this.lastIdCategory)
+
+                    this.limitRessourcesByCat = 4
+                    //console.log('Nouveau limitRessourcesByCat = ' + this.limitRessourcesByCat)
+
+                    return this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat)
+                }
+
+            } else {
+                console.log('limitRessourcesByCat Existe Pas')
+                return this.ressources
+            }
+            // return this.limitRessourcesByCat ? this.$store.getters.getRessourcesByCategorieId(id).slice(0, this.limitRessourcesByCat) : this.ressources
+        }
+
         // categorie() {
         //     let id = this.$route.params.id;
         //     return this.$store.getters.getCategorieById(id);
         // }
     },
+
+    // methods: {
+    //     categorieId() {
+    //         //let id = this.$route.params.id;
+    //         this.ressource.categorie.id += 4;
+    //     }
+    // },
 
     created() {
         this.$store.dispatch('setRessources').then(() => { // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
@@ -741,6 +781,7 @@ html {
     float: left;
     width: 47.5%;
     height: auto;
+    margin-right: 0px;
     -webkit-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.2);
@@ -754,7 +795,7 @@ html {
 
 .image-morefrom-1,
 .image-morefrom-3 {
-    margin-right: 5%;
+    /* margin-right: 5%; */
 }
 
 .image-morefrom-1,

@@ -113,15 +113,15 @@ export default {
             console.log(this.$route.params.id)
         },
     },
-    created() {
-        this.$store.dispatch('setCommentaires').then(() => {
-            this.loaded = true
-        });
-        this.$store.dispatch('setRessources').then(() => {
-            this.loaded = true
-        });
-
-    },
+    // created() {
+    //     this.$store.dispatch('setCommentaires').then(() => {
+    //         this.loaded = true
+    //     });
+    //     this.$store.dispatch('setRessources').then(() => {
+    //         this.loaded = true
+    //     });
+    //
+    // },
 
 
 }

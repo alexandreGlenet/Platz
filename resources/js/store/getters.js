@@ -19,6 +19,14 @@ let getters = {
   }
 },
 
+getCategorieByRessourceId(state) {
+  return function (id){
+    return state.categories.filter(categories => categories.ressource.id == id);
+}
+},
+
+
+
   // LES CATEGORIES
 
   getCategories(state) {
