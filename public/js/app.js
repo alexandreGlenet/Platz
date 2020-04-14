@@ -2386,12 +2386,15 @@ __webpack_require__.r(__webpack_exports__);
       }); //créer une méthode setFilter !!!
 
       ressources = ressources.filter(function (el) {
-        if (el !== undefined && el.isActive === true || el.isActive === false) {
+        if (el !== undefined && el.isActive === true) {
+          _this.limitRessources = 40;
+
           if (el.nom.toLowerCase().includes(_this.searchvalue.toLowerCase())) {
             return true;
           } else if (el.categorie.nom.toLowerCase().includes(_this.searchvalue.toLowerCase())) {
             return true;
           } else {
+            _this.limitRessources = 20;
             return false;
           }
         }

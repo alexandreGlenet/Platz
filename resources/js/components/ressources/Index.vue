@@ -50,12 +50,15 @@ export default {
             });
             //créer une méthode setFilter !!!
             ressources = ressources.filter(el => {
-                if (el !== undefined && el.isActive === true || el.isActive === false ) {
+                if (el !== undefined && el.isActive === true ) {
+                  this.limitRessources = 40
                     if (el.nom.toLowerCase().includes(this.searchvalue.toLowerCase())) {
+
                         return true;
                     } else if (el.categorie.nom.toLowerCase().includes(this.searchvalue.toLowerCase())) {
                         return true;
                     } else {
+                      this.limitRessources = 20
                         return false
                     }
                 }
