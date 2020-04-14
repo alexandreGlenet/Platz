@@ -1,7 +1,7 @@
 <template>
 <div class="" v-if="loaded">
     <section class="work">
-        
+
         <figure v-for="ressource in ressources" :key="ressource.id" class="white">
             <router-link :to="{name: 'ressources.show', params: { id: ressource.id }}">
                 <img :src="'storage/'+ressource.photo" alt="" />
@@ -50,7 +50,7 @@ export default {
             });
             //créer une méthode setFilter !!!
             ressources = ressources.filter(el => {
-                if (el !== undefined && el.isActive === true) {
+                if (el !== undefined && el.isActive === true || el.isActive === false ) {
                     if (el.nom.toLowerCase().includes(this.searchvalue.toLowerCase())) {
                         return true;
                     } else if (el.categorie.nom.toLowerCase().includes(this.searchvalue.toLowerCase())) {

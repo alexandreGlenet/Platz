@@ -2065,6 +2065,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2381,7 +2386,7 @@ __webpack_require__.r(__webpack_exports__);
       }); //créer une méthode setFilter !!!
 
       ressources = ressources.filter(function (el) {
-        if (el !== undefined && el.isActive === true) {
+        if (el !== undefined && el.isActive === true || el.isActive === false) {
           if (el.nom.toLowerCase().includes(_this.searchvalue.toLowerCase())) {
             return true;
           } else if (el.categorie.nom.toLowerCase().includes(_this.searchvalue.toLowerCase())) {
@@ -39018,30 +39023,48 @@ var render = function() {
             "div",
             { key: categorie.id, attrs: { id: "wrapper-bouton-icon" } },
             [
-              _c(
-                "router-link",
-                {
-                  attrs: {
-                    to: {
-                      name: "categories.show",
-                      params: { id: categorie.id }
-                    }
-                  }
-                },
-                [
-                  _c("div", { attrs: { id: "bouton-ai" } }, [
-                    _c("img", {
+              categorie.id != 6
+                ? _c(
+                    "router-link",
+                    {
                       attrs: {
-                        src: "storage/" + categorie.icone,
-                        title: categorie.nom,
-                        alt: categorie.nom,
-                        height: "28",
-                        width: "28"
+                        to: {
+                          name: "categories.show",
+                          params: { id: categorie.id }
+                        }
                       }
-                    })
-                  ])
-                ]
-              )
+                    },
+                    [
+                      _c("div", { attrs: { id: "bouton-ai" } }, [
+                        _c("img", {
+                          attrs: {
+                            src: "storage/" + categorie.icone,
+                            title: categorie.nom,
+                            alt: categorie.nom,
+                            height: "28",
+                            width: "28"
+                          }
+                        })
+                      ])
+                    ]
+                  )
+                : _c(
+                    "router-link",
+                    { attrs: { to: { name: "ressources.index" } } },
+                    [
+                      _c("div", { attrs: { id: "bouton-ai" } }, [
+                        _c("img", {
+                          attrs: {
+                            src: "storage/" + categorie.icone,
+                            title: categorie.nom,
+                            alt: categorie.nom,
+                            height: "28",
+                            width: "28"
+                          }
+                        })
+                      ])
+                    ]
+                  )
             ],
             1
           )

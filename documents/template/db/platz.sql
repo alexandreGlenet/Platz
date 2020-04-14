@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 09, 2020 at 01:47 PM
+-- Generation Time: Apr 14, 2020 at 12:33 PM
 -- Server version: 5.6.34-log
 -- PHP Version: 7.2.1
 
@@ -58,10 +58,33 @@ CREATE TABLE `commentaires` (
   `id` int(10) UNSIGNED NOT NULL,
   `content` longtext COLLATE utf8mb4_unicode_ci,
   `ressource_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `platzer_id` int(11) DEFAULT NULL,
+  `autheur` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `commentaires`
+--
+
+INSERT INTO `commentaires` (`id`, `content`, `ressource_id`, `created_at`, `updated_at`, `platzer_id`, `autheur`, `url`) VALUES
+(58, 'res-1', 1, '2020-04-13 09:14:25', '2020-04-13 09:14:25', NULL, 'alex', NULL),
+(59, 'bonjour', 2, '2020-04-13 09:18:28', '2020-04-13 09:18:28', NULL, 'alice', NULL),
+(70, 'ae', 2, '2020-04-13 09:33:05', '2020-04-13 09:33:05', NULL, 'e&', NULL),
+(71, 'adadada', 2, '2020-04-13 09:34:55', '2020-04-13 09:34:55', NULL, 'aadadad', NULL),
+(72, 'qxqxq', 2, '2020-04-13 09:47:00', '2020-04-13 09:47:00', NULL, 'qxqxq', NULL),
+(73, 'xqxqxqxq', 2, '2020-04-13 09:47:24', '2020-04-13 09:47:24', NULL, 'xqqxq', NULL),
+(74, 'qqqqqq', 2, '2020-04-13 09:47:54', '2020-04-13 09:47:54', NULL, 'qqqqq', NULL),
+(75, 'dd', 2, '2020-04-13 09:49:30', '2020-04-13 09:49:30', NULL, 'dd', NULL),
+(76, 'xxx', 2, '2020-04-13 09:50:03', '2020-04-13 09:50:03', NULL, 'xxx', NULL),
+(77, 'ressource-1', 1, '2020-04-13 09:50:20', '2020-04-13 09:50:20', NULL, 'ideo', NULL),
+(78, 'asasas', 13, '2020-04-13 10:03:15', '2020-04-13 10:03:15', NULL, 'asasa', NULL),
+(79, 'ssss', 1, '2020-04-13 10:03:26', '2020-04-13 10:03:26', NULL, 'ssss', NULL),
+(80, 'Super Photosia', 6, '2020-04-13 10:03:40', '2020-04-13 10:03:40', NULL, 'Alex', NULL),
+(81, 'wouahou im me', 1, '2020-04-13 10:04:20', '2020-04-13 10:04:20', 1, NULL, NULL),
+(82, 'coucou papa', 4, '2020-04-13 12:41:58', '2020-04-13 12:41:58', NULL, 'Sacha', NULL);
 
 -- --------------------------------------------------------
 
@@ -131,16 +154,20 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (42, 6, 'id', 'text', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (43, 6, 'content', 'text', 'Content', 0, 1, 1, 1, 1, 1, '{}', 2),
 (44, 6, 'ressource_id', 'number', 'Ressource Id', 0, 1, 1, 1, 1, 1, '{}', 3),
-(45, 6, 'user_id', 'number', 'User Id', 0, 1, 1, 1, 1, 1, '{}', 4),
-(46, 6, 'created_at', 'timestamp', 'Created At', 0, 1, 1, 1, 0, 1, '{}', 5),
-(47, 6, 'updated_at', 'timestamp', 'Updated At', 0, 0, 0, 0, 0, 0, '{}', 6),
+(46, 6, 'created_at', 'timestamp', 'Created At', 0, 1, 1, 1, 0, 1, '{}', 9),
+(47, 6, 'updated_at', 'timestamp', 'Updated At', 0, 0, 0, 0, 0, 0, '{}', 10),
 (48, 7, 'id', 'number', 'Id', 1, 0, 0, 0, 0, 0, '{}', 1),
 (49, 7, 'nom', 'text', 'Nom', 0, 1, 1, 1, 1, 1, '{}', 2),
 (50, 7, 'created_at', 'timestamp', 'Created At', 0, 1, 1, 1, 0, 1, '{}', 3),
 (51, 7, 'updated_at', 'timestamp', 'Updated At', 0, 0, 0, 0, 0, 0, '{}', 4),
 (52, 7, 'avatar', 'image', 'Avatar', 0, 1, 1, 1, 1, 1, '{}', 5),
 (53, 5, 'ressource_belongsto_platzer_relationship', 'relationship', 'platzers', 0, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\Http\\\\Models\\\\Platzer\",\"table\":\"platzers\",\"type\":\"belongsTo\",\"column\":\"platzer_id\",\"key\":\"id\",\"label\":\"nom\",\"pivot_table\":\"categories\",\"pivot\":\"0\",\"taggable\":\"0\"}', 2),
-(54, 5, 'platzer_id', 'text', 'Platzer Id', 0, 1, 1, 1, 1, 1, '{}', 11);
+(54, 5, 'platzer_id', 'text', 'Platzer Id', 0, 1, 1, 1, 1, 1, '{}', 11),
+(55, 6, 'commentaire_belongsto_ressource_relationship', 'relationship', 'ressources', 0, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\Http\\\\Models\\\\Ressource\",\"table\":\"ressources\",\"type\":\"belongsTo\",\"column\":\"ressource_id\",\"key\":\"id\",\"label\":\"nom\",\"pivot_table\":\"categories\",\"pivot\":\"0\",\"taggable\":\"0\"}', 5),
+(57, 6, 'platzer_id', 'text', 'Platzer Id', 0, 1, 1, 1, 1, 1, '{}', 4),
+(58, 6, 'commentaire_belongsto_platzer_relationship', 'relationship', 'platzers', 0, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\Http\\\\Models\\\\Platzer\",\"table\":\"platzers\",\"type\":\"belongsTo\",\"column\":\"platzer_id\",\"key\":\"id\",\"label\":\"nom\",\"pivot_table\":\"categories\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
+(59, 6, 'autheur', 'text', 'Autheur', 0, 1, 1, 1, 1, 1, '{}', 8),
+(60, 6, 'url', 'text', 'Url', 0, 1, 1, 1, 1, 1, '{}', 7);
 
 -- --------------------------------------------------------
 
@@ -175,8 +202,8 @@ INSERT INTO `data_types` (`id`, `name`, `slug`, `display_name_singular`, `displa
 (2, 'menus', 'menus', 'Menu', 'Menus', 'voyager-list', 'TCG\\Voyager\\Models\\Menu', NULL, '', '', 1, 0, NULL, '2020-03-25 11:53:14', '2020-03-25 11:53:14'),
 (3, 'roles', 'roles', 'Role', 'Roles', 'voyager-lock', 'TCG\\Voyager\\Models\\Role', NULL, 'TCG\\Voyager\\Http\\Controllers\\VoyagerRoleController', '', 1, 0, NULL, '2020-03-25 11:53:14', '2020-03-25 11:53:14'),
 (4, 'categories', 'categories', 'Categorie', 'Categories', NULL, 'App\\Http\\Models\\Categorie', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2020-03-26 08:29:45', '2020-03-31 15:55:19'),
-(5, 'ressources', 'ressources', 'Ressource', 'Ressources', NULL, 'App\\Http\\Models\\Ressource', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2020-03-26 11:18:39', '2020-04-09 10:29:05'),
-(6, 'commentaires', 'commentaires', 'Commentaire', 'Commentaires', NULL, 'App\\Http\\Models\\Commentaire', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2020-04-08 11:51:28', '2020-04-08 11:51:28'),
+(5, 'ressources', 'ressources', 'Ressource', 'Ressources', NULL, 'App\\Http\\Models\\Ressource', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2020-03-26 11:18:39', '2020-04-09 14:35:00'),
+(6, 'commentaires', 'commentaires', 'Commentaire', 'Commentaires', NULL, 'App\\Http\\Models\\Commentaire', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2020-04-08 11:51:28', '2020-04-13 06:04:53'),
 (7, 'platzers', 'platzers', 'Platzer', 'Platzers', NULL, 'App\\Http\\Models\\Platzer', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2020-04-08 14:00:13', '2020-04-09 10:00:53');
 
 -- --------------------------------------------------------
@@ -458,8 +485,10 @@ CREATE TABLE `platzers` (
 --
 
 INSERT INTO `platzers` (`id`, `nom`, `created_at`, `updated_at`, `avatar`) VALUES
-(1, 'Alexandre', '2020-04-08 14:01:30', '2020-04-08 14:01:30', NULL),
-(2, 'Sacha', '2020-04-08 14:01:38', '2020-04-08 14:01:38', NULL);
+(1, 'Alexandre', '2020-04-08 14:01:00', '2020-04-10 12:31:50', 'platzers\\April2020\\m68ZbfUeCQj1uvIkRJS2.png'),
+(2, 'Sacha', '2020-04-08 14:01:00', '2020-04-10 12:29:33', 'platzers\\April2020\\kZKGuio1G23X1S66uNEV.png'),
+(3, 'Viktor', '2020-04-10 12:24:00', '2020-04-10 12:32:05', 'platzers\\April2020\\7zF758dsWRJbARHYBvZt.png'),
+(4, 'Oscar', '2020-04-10 12:24:00', '2020-04-10 12:29:25', 'platzers\\April2020\\EsHP9KiDpCqbdZKUpvO1.png');
 
 -- --------------------------------------------------------
 
@@ -485,7 +514,7 @@ CREATE TABLE `ressources` (
 --
 
 INSERT INTO `ressources` (`id`, `nom`, `created_at`, `updated_at`, `description`, `user_id`, `categorie_id`, `photo`, `fichier`, `platzer_id`) VALUES
-(1, 'Detourage-1', '2020-03-31 05:47:00', '2020-04-01 09:13:57', 'Detourage d\'un visage', 1, 1, 'ressources\\April2020\\v9VnmPTyJtrBvoxoRqhs.jpg', '[{\"download_link\":\"ressources\\\\March2020\\\\tHDln0wkJx4kAndsJKdB.psd\",\"original_name\":\"moto_roue_selection_deformation.psd\"}]', NULL),
+(1, 'Detourage-1', '2020-03-31 05:47:00', '2020-04-09 14:53:24', 'Detourage d\'un visage', 1, 1, 'ressources\\April2020\\v9VnmPTyJtrBvoxoRqhs.jpg', '[{\"download_link\":\"ressources\\\\April2020\\\\1vyaliBT45AoFftllrwd.pdf\",\"original_name\":\"Rapport de test-padel-tennissimo.pdf\"}]', NULL),
 (2, 'Examen-vectoriel', '2020-03-31 09:34:00', '2020-04-01 09:14:34', 'Examen sur Illustrator pour recréer une l\'affiche d\'un évènement', 3, 2, 'ressources\\April2020\\fu1PTJ3NPI6ithFZR7kM.jpg', '[{\"download_link\":\"ressources\\\\March2020\\\\0D2aaiaS76drmrD5QK5l.ai\",\"original_name\":\"Examen-2019.ai\"}]', NULL),
 (3, 'lalalalala', '2020-03-31 17:27:00', '2020-04-01 09:14:11', 'afafaafaafaaf', 2, 1, 'ressources\\April2020\\bTorQZP9mVNrzVZUfEUm.jpg', '[]', NULL),
 (4, 'Themify', '2020-04-01 09:27:25', '2020-04-01 09:27:25', 'Nouveau theme, \"themify\" découvrez les nouveautés.', 2, 3, 'ressources\\April2020\\rkbaZPfc3aD7znw9GVno.jpg', '[]', NULL),
@@ -780,12 +809,12 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `data_rows`
 --
 ALTER TABLE `data_rows`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `data_types`
 --
@@ -820,7 +849,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `platzers`
 --
 ALTER TABLE `platzers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `ressources`
 --

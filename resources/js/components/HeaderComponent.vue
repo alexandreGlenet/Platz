@@ -23,7 +23,12 @@
         <div class="navbar object">
 
             <div id="wrapper-bouton-icon" v-for="categorie in categories" :key="categorie.id">
-                <router-link :to="{name: 'categories.show', params: { id: categorie.id }}">
+                <router-link v-if="categorie.id != 6" :to="{name: 'categories.show', params: { id: categorie.id }}">
+                    <div id="bouton-ai">
+                        <img :src="'storage/'+categorie.icone" :title="categorie.nom" :alt="categorie.nom" height="28" width="28">
+                    </div>
+                </router-link>
+                <router-link v-else :to="{name: 'ressources.index'}">
                     <div id="bouton-ai">
                         <img :src="'storage/'+categorie.icone" :title="categorie.nom" :alt="categorie.nom" height="28" width="28">
                     </div>
