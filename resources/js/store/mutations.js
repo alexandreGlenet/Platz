@@ -5,7 +5,11 @@ let mutations = {
   // LES RESSOURCES
 
   SET_RESSOURCES (state, data) {
-    state.ressources = data;
+    state.ressources = data.map(el => {
+      //console.log(el);
+      el['isActive'] = false
+      return el;
+    });
   },
   // CREATE_RESSOURCE (state, ressource) {
   //   state.ressources.unshift(ressource) // On ajoute une ressource en début de tableau

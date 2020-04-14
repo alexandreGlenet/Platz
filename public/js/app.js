@@ -2372,20 +2372,60 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     ressources: function ressources() {
-      return this.$store.getters.getRessources;
-    },
-    moreRessource: function moreRessource() {
       var _this = this;
 
-      return this.ressources.filter(function (ressource) {
-        return (ressource.nom && ressource.categorie.nom).toLowerCase().includes(_this.searchvalue.toLowerCase());
-      }); // return this.ressources.filter((ressource) => {
-      //   return ressource.nom.match(this.searchvalue);
-      // &&ressource.categorie.nom.match(this.searchvalue);
-      // })
+      // créer une methode setActive !!!
+      var ressources = this.$store.getters.getRessources.map(function (el, index) {
+        if (index < _this.limitRessources) el.isActive = true;
+        return el;
+      }); //créer une méthode setFilter !!!
 
-      return this.limitRessources ? this.ressources.slice(0, this.limitRessources) : this.ressources;
+      ressources = ressources.filter(function (el) {
+        if (el !== undefined && el.isActive === true) {
+          if (el.nom.toLowerCase().includes(_this.searchvalue.toLowerCase())) {
+            return true;
+          } else if (el.categorie.nom.toLowerCase().includes(_this.searchvalue.toLowerCase())) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      });
+      return ressources;
     }
+    /**
+    moreRessource() {
+          return this.ressources.filter(ressource => {
+            if (ressource.nom.toLowerCase().includes(this.searchvalue.toLowerCase())) {
+                return true;
+            } else if (ressource.categorie.nom.toLowerCase().includes(this.searchvalue.toLowerCase())) {
+                return true;
+            } else {
+                return false
+            }
+        })
+        return this.limitRessources ? this.ressources.slice(0, this.limitRessources) : this.ressources
+          // return this.ressources.filter(ressource =>
+        //   ressource.nom.toLowerCase().includes(
+        //     this.searchvalue.toLowerCase()
+        //
+        //   )
+        // &&ressource.categorie.nom.match(this.searchvalue);
+          // );
+        // return this.ressources.filter(ressource =>
+        //   ressource.categorie.nom.toLowerCase().includes(
+        //     this.searchvalue.toLowerCase()
+        //
+        //   )
+        // &&ressource.categorie.nom.match(this.searchvalue);
+          // );
+          // return this.ressources.filter((ressource) => {
+        //   return ressource.nom.match(this.searchvalue);
+        // &&ressource.categorie.nom.match(this.searchvalue);
+          // }
+      }
+    **/
+
   },
   created: function created() {
     var _this2 = this;
@@ -39365,7 +39405,7 @@ var render = function() {
         _c(
           "section",
           { staticClass: "work" },
-          _vm._l(_vm.moreRessource, function(ressource) {
+          _vm._l(_vm.ressources, function(ressource) {
             return _c(
               "figure",
               { key: ressource.id, staticClass: "white" },
@@ -56789,7 +56829,11 @@ __webpack_require__.r(__webpack_exports__);
 var mutations = {
   // LES RESSOURCES
   SET_RESSOURCES: function SET_RESSOURCES(state, data) {
-    state.ressources = data;
+    state.ressources = data.map(function (el) {
+      //console.log(el);
+      el['isActive'] = false;
+      return el;
+    });
   },
   // CREATE_RESSOURCE (state, ressource) {
   //   state.ressources.unshift(ressource) // On ajoute une ressource en début de tableau
