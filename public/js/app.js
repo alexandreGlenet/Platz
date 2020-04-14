@@ -1986,6 +1986,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../event-bus.js */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -2063,10 +2064,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      limitRessourcesByCat: 4
+      limitRessourcesByCat: 4,
+      search: ''
     };
   },
   computed: {
@@ -2081,6 +2085,19 @@ __webpack_require__.r(__webpack_exports__);
       var id = this.$route.params.id;
       return this.$store.getters.getRessourcesByCategorieId(id);
     }
+  },
+  methods: {
+    emitSearchValue: function emitSearchValue() {
+      _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('search-value', this.search);
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    this.$store.dispatch('setRessources').then(function () {
+      // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
+      _this.loaded = true; // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
+    });
   }
 });
 
@@ -2315,6 +2332,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _event_bus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../event-bus.js */ "./resources/js/event-bus.js");
 //
 //
 //
@@ -2341,13 +2359,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       //ressources: [],
       //categories: []
       loaded: false,
-      limitRessources: 20
+      limitRessources: 20,
+      searchvalue: ''
     };
   },
   computed: {
@@ -2355,18 +2375,29 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters.getRessources;
     },
     moreRessource: function moreRessource() {
+      var _this = this;
+
+      return this.ressources.filter(function (ressource) {
+        return (ressource.nom && ressource.categorie.nom).toLowerCase().includes(_this.searchvalue.toLowerCase());
+      }); // return this.ressources.filter((ressource) => {
+      //   return ressource.nom.match(this.searchvalue);
+      // &&ressource.categorie.nom.match(this.searchvalue);
+      // })
+
       return this.limitRessources ? this.ressources.slice(0, this.limitRessources) : this.ressources;
     }
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     this.$store.dispatch('setRessources').then(function () {
       // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
-      _this.loaded = true; // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
+      _this2.loaded = true; // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
     });
-  },
-  methods: {}
+    _event_bus_js__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('search-value', function (search) {
+      _this2.searchvalue = search;
+    });
+  }
 });
 
 /***/ }),
@@ -38906,7 +38937,31 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _c("div", { attrs: { id: "main_tip_search" } }, [
+            _c("form", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                attrs: { type: "text", name: "search", id: "tip_search_input" },
+                domProps: { value: _vm.search },
+                on: {
+                  keyup: _vm.emitSearchValue,
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
           _vm._v(" "),
           _c("div", { attrs: { id: "stripes" } })
         ],
@@ -38955,29 +39010,10 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(1)
+    _vm._m(0)
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "main_tip_search" } }, [
-      _c("form", [
-        _c("input", {
-          attrs: {
-            type: "text",
-            name: "search",
-            id: "tip_search_input",
-            list: "search",
-            autocomplete: "off",
-            required: ""
-          }
-        })
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -55924,11 +55960,29 @@ var app = new Vue({
   el: '#app',
   router: _router_js__WEBPACK_IMPORTED_MODULE_1__["default"],
   store: _store_index_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  data: {
+    search: '',
+    ressources: []
+  },
   created: function created() {
     this.$store.dispatch('setRessources');
     this.$store.dispatch('setCategories');
     this.$store.dispatch('setPlatzers');
     this.$store.dispatch('setCommentaires');
+  },
+  methods: {
+    searchit: function searchit() {
+      console.log('searching...');
+    }
+  },
+  computed: {
+    moreRessourceByCat: function moreRessourceByCat() {
+      var _this = this;
+
+      return this.ressources.filter(function (ressource) {
+        return ressource.nom.match(_this.search);
+      });
+    }
   }
 });
 
@@ -56429,6 +56483,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/event-bus.js":
+/*!***********************************!*\
+  !*** ./resources/js/event-bus.js ***!
+  \***********************************/
+/*! exports provided: EventBus */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventBus", function() { return EventBus; });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+
+var EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
+
+/***/ }),
+
 /***/ "./resources/js/router.js":
 /*!********************************!*\
   !*** ./resources/js/router.js ***!
@@ -56576,22 +56647,37 @@ __webpack_require__.r(__webpack_exports__);
 var getters = {
   // LES RESSOURCES
   getRessources: function getRessources(state) {
+    var _this = this;
+
     return state.ressources;
+    return this.ressources.filter(function (ressource) {
+      return ressource.nom.match(_this.search);
+    });
   },
   getRessourceById: function getRessourceById(state) {
+    var _this2 = this;
+
     return function (id) {
       // Je transforme en fonction pour ma computed de mon Show.vue
       return state.ressources.find(function (ressource) {
         return ressource.id == id;
       });
     };
+    return this.ressources.filter(function (ressource) {
+      return ressource.nom.match(_this2.search);
+    });
   },
   getRessourcesByCategorieId: function getRessourcesByCategorieId(state) {
+    var _this3 = this;
+
     return function (id) {
       return state.ressources.filter(function (ressources) {
         return ressources.categorie.id == id;
       });
     };
+    return this.ressources.filter(function (ressource) {
+      return ressource.nom.match(_this3.search);
+    });
   },
   getCategorieByRessourceId: function getCategorieByRessourceId(state) {
     return function (id) {

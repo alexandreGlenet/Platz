@@ -5,18 +5,27 @@ let getters = {
 
   getRessources(state) {
     return state.ressources;
+    return this.ressources.filter((ressource) => {
+      return ressource.nom.match(this.search);
+    })
   },
 
   getRessourceById(state) {
     return function (id) { // Je transforme en fonction pour ma computed de mon Show.vue
       return state.ressources.find(ressource => ressource.id == id);
     }
+    return this.ressources.filter((ressource) => {
+      return ressource.nom.match(this.search);
+    })
   },
 
   getRessourcesByCategorieId(state) {
     return function (id){
       return state.ressources.filter(ressources => ressources.categorie.id == id);
   }
+  return this.ressources.filter((ressource) => {
+    return ressource.nom.match(this.search);
+  })
 },
 
 getCategorieByRessourceId(state) {

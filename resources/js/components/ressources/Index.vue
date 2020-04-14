@@ -1,7 +1,7 @@
 <template>
 <div class="" v-if="loaded">
     <section class="work">
-
+        <!-- <input type="text" name="" v-model="search" value=""> -->
         <figure v-for="ressource in moreRessource" :key="ressource.id" class="white">
             <router-link :to="{name: 'ressources.show', params: { id: ressource.id }}">
                 <img :src="'storage/'+ressource.photo" alt="" />
@@ -25,13 +25,15 @@
 </template>
 
 <script>
+import { EventBus } from '../../event-bus.js';
 export default {
     data() {
         return {
             //ressources: [],
             //categories: []
             loaded: false,
-            limitRessources: 20
+            limitRessources: 20,
+            searchvalue: ''
 
         }
     },
@@ -41,7 +43,21 @@ export default {
             return this.$store.getters.getRessources;
         },
         moreRessource(){
+          return this.ressources.filter(ressource =>
+            (ressource.nom && ressource.categorie.nom).toLowerCase().includes(
+              this.searchvalue.toLowerCase()
+            )          
+          );
+
+
+          // return this.ressources.filter((ressource) => {
+          //   return ressource.nom.match(this.searchvalue);
+            // &&ressource.categorie.nom.match(this.searchvalue);
+
+          // })
+
           return this.limitRessources ? this.ressources.slice(0,this.limitRessources) : this.ressources
+
   }
 
     },
@@ -49,11 +65,12 @@ export default {
       this.$store.dispatch('setRessources').then(()=> { // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
         this.loaded = true // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
       });
+      EventBus.$on('search-value', (search) => {
+        this.searchvalue = search;
+      })
     },
 
-    methods: {
 
-    }
 
 }
 </script>

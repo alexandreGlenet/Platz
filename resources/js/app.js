@@ -41,11 +41,30 @@ const app = new Vue({
     router,
     store,
 
+    data:{
+      search:'',
+      ressources: []
+    },
+
     created () {
       this.$store.dispatch('setRessources');
       this.$store.dispatch('setCategories');
       this.$store.dispatch('setPlatzers');
       this.$store.dispatch('setCommentaires');
-    }
+    },
+    methods:{
+      searchit(){
+        console.log('searching...')
+      }
+
+    },
+    computed: {
+      moreRessourceByCat(){
+        return this.ressources.filter((ressource) => {
+          return ressource.nom.match(this.search);
+        })
+      }
+
+    },
 
 });

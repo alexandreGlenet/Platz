@@ -11,7 +11,8 @@
             </router-link>
             <div id="main_tip_search">
                 <form>
-                    <input type="text" name="search" id="tip_search_input" list="search" autocomplete=off required>
+                    <input type="text" name="search" v-model="search" @keyup="emitSearchValue" id="tip_search_input">
+                    <!-- <button type="submit" @click="searchit" name="button"></button> -->
                 </form>
             </div>
             <div id="stripes"></div>
@@ -76,10 +77,12 @@
 </template>
 
 <script>
+import { EventBus } from '../event-bus.js';
 export default {
     data() {
         return {
-            limitRessourcesByCat: 4
+            limitRessourcesByCat: 4,
+            search:'',
 
         }
     },
@@ -96,6 +99,16 @@ export default {
             let id = this.$route.params.id;
             return this.$store.getters.getRessourcesByCategorieId(id);
         }
-    }
+    },
+    methods: {
+      emitSearchValue(){
+        EventBus.$emit('search-value', this.search);
+      }
+    },
+    created() {
+      this.$store.dispatch('setRessources').then(()=> { // Mettre les actions dans chaque vue permet de pouvoir modifier le backoffice et que l'utilisateur voit les changement sans relancer le site.
+        this.loaded = true // avec le v-if qui permet d'attendre que mon composant soit chargé pour ne pas avoir l'erreur : Error in render: “TypeError: Cannot read property ‘name’ of undefined”
+      });
+    },
 }
 </script>
